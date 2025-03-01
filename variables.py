@@ -11,21 +11,19 @@ class BotConfig:
         try:
             with open("variables.json", "r") as f:
                 data = json.load(f)
-                self.channels_list = data.get("channels_list", [])
-                self.filter_query = data.get("filter_query", "job offer")
-                self.filter_strength = data.get("filter_strength", 3)
-                self.subscribers = set(data.get("subscribers", []))
-                self.last_message_ids = data.get("last_message_ids", {})
+                self.filter_query: str = data.get("filter_query", "job offer")
+                self.filter_strength: int = data.get("filter_strength", 3)
+                self.subscribers: set = set(data.get("subscribers", []))
+                self.channels: list = data.get("channels", {})
         except FileNotFoundError:
             pass
         
     def save_variables(self, _ = ()):
         data = {
-            "channels_list": self.channels_list,
             "filter_query": self.filter_query,
             "filter_strength": self.filter_strength,
             "subscribers": list(self.subscribers),
-            "last_message_ids": self.last_message_ids
+            "channels": self.channels
         }
         with open("variables.json", "w") as f:
             json.dump(data, f, indent=4)

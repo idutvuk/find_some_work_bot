@@ -7,7 +7,7 @@ from config import TELEGRAM_BOT_TOKEN
 from telegram_handlers import router
 from telethon_polling import poll_channels
 
-nest_asyncio.apply()
+# nest_asyncio.apply()
 
 
 logging.basicConfig(

@@ -40,8 +40,8 @@ async def add_handler(message: types.Message):
         await message.answer("Usage: /add <channel_link1> <channel_link2> ...")
         return
     for channel in args:
-        if channel not in config.channels_list:
-            config.channels_list.append(channel)
+        if channel not in config.channels:
+            config.channels[channel] = -1
             config.save_variables()
             await message.answer(f"Channel '{channel}' added.")
         else:
@@ -58,8 +58,8 @@ async def remove_handler(message: types.Message):
         await message.answer("Usage: /remove <channel_link1> <channel_link2> ...")
         return
     for channel in args:
-        if channel in config.channels_list:
-            config.channels_list.remove(channel)
+        if channel in config.channels:
+            config.channels.pop(channel)
             await message.answer(f"Channel '{channel}' removed.")
         else:
             await message.answer(f"Channel '{channel}' not found.")
@@ -70,8 +70,8 @@ async def list_handler(message: types.Message):
     if message.from_user.id not in ADMIN_IDS:
         await message.answer("Unauthorized")
         return
-    if config.channels_list:
-        msg = "Current channels/groups:\n" + "\n".join(config.channels_list)
+    if config.channels:
+        msg = "Current channels/groups:\n" + "\n".join(config.channels)
     else:
         msg = "No channels/groups added."
     await message.answer(msg)
