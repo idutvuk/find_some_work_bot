@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.git
+.vscode
+
+# Telethon session files
+*.session
+*.session-journal
+# Variables file (if you want to avoid tracking dynamic data)
+variables.json
+
+# Logs
+*.log
+
+# Virtual environment directories
+venv/
+env/
+.venv/
+
+# OS generated files
+.DS_Store
+Thumbs.db

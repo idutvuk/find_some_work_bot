@@ -1,0 +1,13 @@
+[project]
+name = "find-some-work-bot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiogram>=3.18.0",
+    "dotenv>=0.9.9",
+    "nest-asyncio>=1.6.0",
+    "openai>=1.65.2",
+    "telethon>=1.39.0",
+]
