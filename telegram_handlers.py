@@ -99,3 +99,8 @@ async def filter_handler(message: types.Message):
         return
     vars.filters = " ".join(args[1:]).split(" | ")
     await message.answer(f"Filter updated: {' | '.join(vars.filters)}'\nStrength {vars.filter_strength}/5")
+    
+@router.message(Command("ping"))
+async def ping(message: types.Message):
+    await message.reply("хуинг")
+
