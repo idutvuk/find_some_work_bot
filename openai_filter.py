@@ -12,27 +12,17 @@ client = OpenAI()
 async def filter_match(post_text: str) -> list:
     prompt = (
         """
-        Ты — высококвалифицированный эксперт по анализу текста и автоматизированному подбору вакансий. Твоя задача — проанализировать текст поста о предложении работы или заказе и определить, насколько он соответствует заданному технологическому стеку.
-
-        Входные данные:
-        1. Пост (строка): текст с описанием вакансии или заказа.
-        2. Фильтры (строка, содержащая список технологий или навыков): список ключевых слов/фраз, разделённых запятыми или в виде массива.
-
-        Твоя задача:
-        - Для каждого фильтра оцени степень его соответствия тексту поста по шкале от 0 до 5, где:
-        - 0 означает полное отсутствие упоминаний или связи с фильтром;
-        - 5 означает полное соответствие и явное упоминание фильтра в контексте.
-        При оценке учитывай:
-        - Наличие прямых упоминаний, синонимов, аббревиатур и вариаций названия технологии.
-        - Контекст использования термина в тексте.
-        - Частоту и релевантность упоминаний.
-        - Насколько этот заказ может быть актуален для человека, знающего этот стек. (Например, заказ о поиске 3D дизайнера актуален для "Визуализатор интерьеров" на 3/5)
-        - Вывод: верни строку, состоящую из чисел (оценок), разделённых пробелами, при этом порядок оценок должен соответствовать порядку фильтров во входном списке.
-
-        Пример:
-        Если пост содержит упоминания о «Python», «Django» и «PostgreSQL», а фильтры: ["Python", "Java", "Django", "React"], то допустимый вывод: "5 0 5 0".
-        Если пост не является предложением работы или заказом, его корреляция 0
-        Не задавай дополнительных вопросов, просто проанализируй входной текст и выведи оценки согласно описанным правилам.
+        You are a highly qualified expert in text analysis and automated job matching. Your task is to evaluate a job offer or order post against a given technology stack.
+        Input:
+            Post (string): A text describing a job offer or order.
+            Filters (string/array): A list of keywords or phrases (technologies/skills), separated by commas or provided as an array.
+        Task:
+        For each filter, assign a score from 0 to 5 based on its relevance to the post, where:
+            0 means no mention or relevance;
+            5 means a full match with explicit mention.
+        Consider direct mentions, synonyms, abbreviations, context, frequency, and overall appropriateness (e.g., a post seeking a 3D designer might score "Interior Visualizer" as 3/5).
+        Output:
+        Return a space-separated string of scores matching the order of the filters. If the post is not a job offer or order, return "0".
         """
         + f"Filters:\n'{vars.filters}'. "
     )
