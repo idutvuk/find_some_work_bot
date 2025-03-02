@@ -10,9 +10,6 @@ client = OpenAI()
 
 
 async def filter_match(post_text: str) -> list:
-    """
-    Использует OpenAI ChatCompletion API для определения, следует ли пересылать сообщение.
-    """
     prompt = (
         """
         Ты — высококвалифицированный эксперт по анализу текста и автоматизированному подбору вакансий. Твоя задача — проанализировать текст поста о предложении работы или заказе и определить, насколько он соответствует заданному технологическому стеку.
@@ -49,7 +46,7 @@ async def filter_match(post_text: str) -> list:
             temperature=0.0,
         )
         answers = response.choices[0].message.content.split()
-        logger.info(f"OpenAI filter response: {answers}")
+        logger.info(f"response: {answers}")
         return answers
 
     except Exception as e:

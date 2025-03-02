@@ -13,7 +13,7 @@ class Variables:
                 self.filters: list = data.get("filters", ["job offer"])
                 self.filter_strength: int = data.get("filter_strength", 3)
                 self.subscribers: set = set(data.get("subscribers", []))
-                self.channels: list = data.get("channels", {})
+                self.channels: dict = data.get("channels", {})
         except FileNotFoundError:
             pass
         
