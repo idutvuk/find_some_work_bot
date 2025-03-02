@@ -17,15 +17,15 @@ class Variables:
         except FileNotFoundError:
             pass
         
-    def save_variables(self, _ = ()):
+    def save_variables(self):
         data = {
             "filters": self.filters,
             "filter_strength": self.filter_strength,
             "subscribers": list(self.subscribers),
             "channels": self.channels
         }
-        with open("variables.json", "w") as f:
-            json.dump(data, f, indent=4)
+        with open("variables.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
             logger.info("saved")
     
     
