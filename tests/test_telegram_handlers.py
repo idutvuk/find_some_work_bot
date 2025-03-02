@@ -1,6 +1,6 @@
 import pytest
 from telegram_handlers import subscribe_handler, unsubscribe_handler
-from variables import BotConfig
+from variables import Variables
 
 # Create a dummy message class to simulate an aiogram message.
 class DummyMessage:
@@ -15,10 +15,10 @@ class DummyMessage:
 @pytest.fixture
 def dummy_config(monkeypatch):
     # Ensure we have a clean config for testing
-    config = BotConfig()
-    config.subscribers = set()
-    monkeypatch.setattr("telegram_handlers.config", config)
-    return config
+    vars = Variables()
+    vars.subscribers = set()
+    monkeypatch.setattr("telegram_handlers.config", vars)
+    return vars
 
 @pytest.mark.asyncio
 async def test_subscribe_handler(dummy_config):

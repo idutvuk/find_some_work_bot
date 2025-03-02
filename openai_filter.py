@@ -1,10 +1,10 @@
 from openai import OpenAI
 
 import logging
-from variables import BotConfig
+from variables import Variables
 
 logger = logging.getLogger(__name__)
-config = BotConfig()
+vars = Variables()
 
 client = OpenAI()
 
@@ -40,7 +40,7 @@ async def filter_match(post_text: str) -> list:
         output:
         5 4 1 2 3 0
         """
-        + f"Filters (split by | symbol):\n'{config.filter_query}'. "
+        + f"Filters:\n'{vars.filters}'. "
     )
     try:
         response = client.chat.completions.create(

@@ -5,12 +5,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class BotConfig:
+class Variables:
     def load_variables(self):
         try:
             with open("variables.json", "r") as f:
                 data = json.load(f)
-                self.filter_query: str = data.get("filter_query", "job offer")
+                self.filters: list = data.get("filters", ["job offer"])
                 self.filter_strength: int = data.get("filter_strength", 3)
                 self.subscribers: set = set(data.get("subscribers", []))
                 self.channels: list = data.get("channels", {})
@@ -19,7 +19,7 @@ class BotConfig:
         
     def save_variables(self, _ = ()):
         data = {
-            "filter_query": self.filter_query,
+            "filters": self.filters,
             "filter_strength": self.filter_strength,
             "subscribers": list(self.subscribers),
             "channels": self.channels

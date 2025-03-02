@@ -1,6 +1,6 @@
 import json
 import pytest
-from variables import BotConfig
+from variables import Variables
 
 @pytest.fixture
 def temp_variables_file(tmp_path, monkeypatch):
@@ -12,33 +12,34 @@ def temp_variables_file(tmp_path, monkeypatch):
 def test_save_and_load_variables(tmp_path):
     # Use a temporary directory for the test
     variables_path = tmp_path / "variables.json"
-    config = BotConfig()
-    config.channels = ["channel1", "channel2"]
-    config.filter_query = "test query"
-    config.filter_strength = 4
-    config.subscribers = {12345, 67890}
-    config.channels = {"channel1": 10}
+    vars = Variables()
+    vars.channels = ["channel1", "channel2"]
+    vars.filter_query = "test query"
+    vars.filter_strength = 4
+    vars.subscribers = {12345, 67890}
+    vars.channels = {"channel1": 10}
 
     # Save variables
-    config.save_variables()
+    vars.save_variables()
     # Read file directly
     with open("variables.json", "r") as f:
         data = json.load(f)
 
-    assert data["channels_list"] == config.channels
-    assert data["filter_query"] == config.filter_query
-    assert data["filter_strength"] == config.filter_strength
+    assert data["channels_list"] == vars.channels
+    assert data["filter_query"] == vars.filter_query
+    assert data["filter_strength"] == vars.filter_strength
     # Note: subscribers will be saved as a list, so compare sets.
-    assert set(data["subscribers"]) == config.subscribers
-    assert data["last_message_ids"] == config.channels
+    assert set(data["subscribers"]) == vars.subscribers
+    assert data["last_message_ids"] == vars.channels
 
     # Now, create a new instance to load the saved data
-    new_config = BotConfig()
+    new_config = Variables()
     # It should load the same values
-    assert new_config.channels == config.channels
-    assert new_config.filter_query == config.filter_query
-    assert new_config.filter_strength == config.filter_strength
-    assert new_config.subscribers == config.subscribers
-    assert new_config.channels == config.channels
+    assert new_config.channels == vars.channels
+    assert new_config.filter_query == vars.filter_query
+    assert new_config.filter_strength == vars.filter_strength
+    assert new_config.subscribers == vars.subscribers
+    assert new_config.channels == vars.channels
+
 
 
