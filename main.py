@@ -7,7 +7,7 @@ from telethon_polling import poll_channels
 
 
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+    format="%(asctime)s|%(name)s|%(levelname)s | %(message)s", level=logging.INFO, datefmt="%H:%M:%S"
 )
 logger = logging.getLogger(__name__)
 logging.getLogger("httpx").setLevel(logging.WARNING)
