@@ -1,5 +1,5 @@
 import pytest
-from openai_filter import should_forward
+from openai_filter import filter_match
 
 # We will mock the openai.ChatCompletion.create function.
 @pytest.fixture(autouse=True)
@@ -20,7 +20,7 @@ def patch_openai(monkeypatch):
 @pytest.mark.asyncio
 async def test_should_forward_yes():
     # Provide a sample post_text.
-    result = await should_forward("This is a job offer post.")
+    result = await filter_match("This is a job offer post.")
     # The dummy always returns an answer starting with "yes"
     assert result is True
 
@@ -34,5 +34,5 @@ async def test_should_forward_no(monkeypatch):
         return type("Dummy", (), {"choices": [type("Choice", (), {"message": {"content": "No"}})]})
     monkeypatch.setattr("openai.ChatCompletion.create", dummy_create)
 
-    result = await should_forward("This is a job offer post.")
+    result = await filter_match("This is a job offer post.")
     assert result is False
