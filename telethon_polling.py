@@ -32,17 +32,21 @@ async def poll_channels(bot):
                 vars.channels[channel] = message.id
                 post_text = message.message or ""
                 logger.info(f"New: {channel}/{message.id}: {post_text[:50]}...")
-                filters = await filter_match(post_text)
-                for i in range(len(filters)):
-                    if int(filters[i]) >= vars.filter_strength:
+                response = await filter_match(post_text)
+                for i in range(len(response)):
+                    if int(response[i]) >= vars.filter_strength:
                         for user_id in vars.subscribers:
                             try:
                                 await bot.send_message(
                                     chat_id=user_id,
-                                    text=f"!!! {filters[i]}/{vars.filter_strength}/5 \nBy: '{i}'\nlink: {channel}/{message.id}"
+                                    text=
+                                    f"!!! {response[i]}/{vars.filter_strength}/5\n"
+                                    f"By: '{vars.filters[i]}'\n"
+                                    f"link: {channel}/{message.id}"
                                 )
                             except Exception as e:
                                 logger.error(f"Error sending message to {user_id}: {e}")
             except Exception as e:
                 logger.error(f"Error processing channel {channel}: {e}")
         await asyncio.sleep(TELETHON_POLLING_INTERVAL)
+        
