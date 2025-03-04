@@ -8,6 +8,29 @@ vars = Variables()
 
 client = OpenAI()
 
+async def filter_is_job_offer(post_text: str) -> bool:
+    prompt = (
+        """
+        Is this post a job offer or freelance order? Answer 1 for yes, 0 for no
+        """
+    )
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": f"Post: {post_text}"},
+            ],
+            temperature=0.0,
+        )
+        answer = response.choices[0].message.content == '1'
+        logger.verbose(f"isJobOffer response: {answer}")
+        return answer
+
+    except Exception as e:
+        logger.error(f"OpenAI API error: {e}")
+        return False
+
 
 async def filter_match(post_text: str) -> list:
     prompt = (
