@@ -3,7 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from config import TELEGRAM_BOT_TOKEN
 from telegram_handlers import router
-from telethon_polling import poll_channels
+from telethon_polling import poll_for_jobs
 
 
 logging.basicConfig(
@@ -18,7 +18,7 @@ async def main():
 
     dp = Dispatcher()
     dp.include_router(router)
-    asyncio.create_task(poll_channels(bot))
+    asyncio.create_task(poll_for_jobs(bot))
     await dp.start_polling(bot)
 
 

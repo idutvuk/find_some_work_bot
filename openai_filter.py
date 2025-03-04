@@ -11,7 +11,7 @@ client = OpenAI()
 async def filter_is_job_offer(post_text: str) -> bool:
     prompt = (
         """
-        Is this post a job offer or freelance order? Answer 1 for yes, 0 for no
+        Is this post a job offer or freelance order or paid help request? Answer 1 for yes, 0 for no
         """
     )
     try:
@@ -22,9 +22,10 @@ async def filter_is_job_offer(post_text: str) -> bool:
                 {"role": "user", "content": f"Post: {post_text}"},
             ],
             temperature=0.0,
+            max_tokens=5
         )
         answer = response.choices[0].message.content == '1'
-        logger.verbose(f"isJobOffer response: {answer}")
+        logger.info(f"isJobOffer response: {answer}")
         return answer
 
     except Exception as e:
