@@ -33,11 +33,3 @@ class Variables:
     def __init__(self):
         self.load_variables()
 
-
-    def use_var(self, func):
-        @functools.wraps(func)
-        async def wrapper(*args, **kwargs):
-            result = await func(*args, **kwargs) 
-            self.save_variables(result)
-            return result
-        return wrapper

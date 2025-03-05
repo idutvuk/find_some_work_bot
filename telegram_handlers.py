@@ -23,25 +23,23 @@ class NotAdmin:
 
 
 
-@vars.use_var
 @router.message(Command("subscribe"))
 async def subscribe_handler(message: types.Message):
-    user_id = message.from_user.id
-    vars.subscribers.add(user_id)
+    vars.subscribers.add(message.chat.id)
     await message.answer(
         "You have been subscribed to job offers. If you don't want to, use /unsubscribe"
     )
+    vars.save_variables()
 
 
-@vars.use_var
 @router.message(Command("unsubscribe"))
 async def unsubscribe_handler(message: types.Message):
-    user_id = message.from_user.id
+    user_id = message.chat.id
     vars.subscribers.discard(user_id)
     await message.answer("You have been unsubscribed.")
+    vars.save_variables()
 
 
-@vars.use_var
 @router.message(Admin(), Command("listsubs"))
 async def user_list(message: types.Message):
     await message.answer("subs\n" + "\n".join(map(str, vars.subscribers)))
@@ -50,7 +48,6 @@ async def user_list(message: types.Message):
 # region folder mode
 
 
-@vars.use_var
 @router.message(Admin(), Command("parsemode"))
 async def set_parse_mode(message: types.Message):
     args = message.text.split()[1:]
@@ -75,7 +72,6 @@ async def list_handler(message: types.Message):
 
 
 # region list mode
-@vars.use_var
 @router.message(Admin(), Command("add"))
 async def add_handler(message: types.Message):
     args = message.text.split()[1:]
@@ -91,7 +87,6 @@ async def add_handler(message: types.Message):
             await message.answer(f"Channel '{channel}' is already in the list.")
 
 
-@vars.use_var
 @router.message(Admin(), Command("remove"))
 async def remove_handler(message: types.Message):
     args = message.text.split()[1:]
@@ -107,13 +102,12 @@ async def remove_handler(message: types.Message):
     vars.save_variables()
 
 
-@vars.use_var
 @router.message(Admin(), Command("filter"))
 async def filter_handler(message: types.Message):
     args = message.text.split()[1:]
     if len(args) < 2:
         await message.answer(
-            f"Filter: '{vars.filters}'\nStrength {vars.filter_strength}\nTo set filter, usage: /filter <strength> <filter1> | <filter2>"
+            f"Filter: {' | '.join(vars.filters)}\nStrength {vars.filter_strength}\nTo set filter, usage: /filter <strength> <filter1> | <filter2>"
         )
         return
     try:
@@ -125,6 +119,7 @@ async def filter_handler(message: types.Message):
         await message.answer("Invalid filter strength")
         return
     vars.filters = " ".join(args[1:]).split(" | ")
+    vars.save_variables()
     await message.react(reaction=[{"type": "emoji", "emoji": "👌"}])
     
 
