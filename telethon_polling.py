@@ -65,13 +65,12 @@ async def poll_channels(bot, items: list[tuple]):
                         try:
                             await bot.send_message(
                                 chat_id=user_id,
-                                text=f"""
-                                    !!! {response[i]}/5 (passed {vars.filter_strength}/5 filter)\n{vars.filters[i]}
-                                    link: {channel}/{message.id}"
-                                    """,
+                                text=f"!!! {response[i]}/5 (passed {vars.filter_strength}/5 filter)\n{vars.filters[i]}\nlink: {channel}/{message.id}",
+                                disable_web_page_preview=vars.post_preview
                             )
                         except Exception as e:
                             logger.error(f"Error sending message to {user_id}: {e}")
+                    break # todo remove if individual filters
         except Exception as e:
             logger.error(f"Error processing channel {channel}: {e}")
     logger.info(

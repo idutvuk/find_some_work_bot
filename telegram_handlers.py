@@ -1,10 +1,9 @@
 import logging
 from aiogram import Router, types
-from aiogram.filters import Command, CommandStart
+from aiogram.filters import Command
+from aiogram import F
 from variables import Variables
 from config import ADMIN_IDS
-from aiogram.types import ReactionTypeEmoji
-from telethon_polling import poll_for_jobs
 
 logger = logging.getLogger(__name__)
 vars = Variables()
@@ -16,11 +15,10 @@ class Admin:
     def __call__(self, message):
         return message.from_user.id in ADMIN_IDS
 
-        
+
 class NotAdmin:
     def __call__(self, message):
         return message.from_user.id not in ADMIN_IDS
-
 
 
 @router.message(Command("subscribe"))
@@ -56,7 +54,9 @@ async def set_parse_mode(message: types.Message):
         vars.save_variables()
         await message.react(reaction=[{"type": "emoji", "emoji": "👌"}])
     else:
-        await message.answer("unknown type"+args+ ".\n/parsemode folder\n/parsemode list")
+        await message.answer(
+            "unknown type" + args + ".\n/parsemode folder\n/parsemode list"
+        )
 
 
 # endregion
@@ -65,7 +65,7 @@ async def set_parse_mode(message: types.Message):
 @router.message(Admin(), Command("list"))
 async def list_handler(message: types.Message):
     if vars.channels:
-        msg = "Current channels/groups:\n" + "\n".join(vars.channels)
+        msg = f"Total {len(vars.channels)} chats:" + "\n" + "\n".join(vars.channels)
     else:
         msg = "No channels/groups added."
     await message.answer(msg)
@@ -121,7 +121,6 @@ async def filter_handler(message: types.Message):
     vars.filters = " ".join(args[1:]).split(" | ")
     vars.save_variables()
     await message.react(reaction=[{"type": "emoji", "emoji": "👌"}])
-    
 
 
 # endregion
@@ -139,9 +138,13 @@ async def start_handler(message: types.Message):
 async def ping(message: types.Message):
     await message.react(reaction=[{"type": "emoji", "emoji": "🖕"}])
 
-@router.message(NotAdmin())
+
+@router.message(NotAdmin(), F.text.startswith("/"), ~F.text.startswith("ping"))
 async def fuck(message: types.Message):
     await message.react(reaction=[{"type": "emoji", "emoji": "🖕"}])
 
-
+# just for handling message
+@router.message(~F.text.startswith("/"))
+async def not_command(message: types.Message):
+    pass
 # endregion
