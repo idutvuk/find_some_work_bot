@@ -14,7 +14,7 @@ class Variables:
     
     def load_variables(self):
         try:
-            with open(_get_variables_file(), "r") as f:
+            with open(_get_variables_file(), "r", encoding="utf-8") as f:
                 data = json.load(f)
                 self.filters: list = data.get("filters", ["job offer"])
                 self.filter_strength: int = data.get("filter_strength", 3)
