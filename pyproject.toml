@@ -10,5 +10,6 @@ dependencies = [
     "freezegun>=1.5.1",
     "nest-asyncio>=1.6.0",
     "openai>=1.65.2",
+    "pytest-asyncio>=0.25.3",
     "telethon>=1.39.0",
 ]
