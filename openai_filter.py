@@ -4,7 +4,7 @@ import logging
 from variables import Variables
 
 logger = logging.getLogger(__name__)
-vars = Variables()
+v = Variables()
 
 client = OpenAI()
 
@@ -48,7 +48,7 @@ async def filter_match(post_text: str) -> list:
         Output:
         Return a space-separated string of scores matching the order of the filters. If the post is not a job offer or order, return "0".
         """
-        + f"Filters:\n'{vars.filters}'. "
+        + f"Filters:\n'{v.filters}'. "
     )
     try:
         response = client.chat.completions.create(

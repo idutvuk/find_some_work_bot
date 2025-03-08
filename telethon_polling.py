@@ -34,7 +34,7 @@ async def poll_for_jobs(bot):
         await asyncio.sleep(TELETHON_POLLING_INTERVAL)
 
 
-async def poll_channels(bot, items: list[tuple]):
+async def poll_channels(bot, items):
     new_count, offers_count, passed_offers_count = 0, 0, 0
     logger.info(f"Polling {len(items)} items")
     for channel, id in items:
