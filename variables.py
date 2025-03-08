@@ -1,13 +1,20 @@
 import json
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
+def _get_variables_file():
+    if os.getenv('TEST_ENVIRONMENT') == 'true':
+        return 'variables-test.json'
+    return 'variables.json'
 
 class Variables:
+
+    
     def load_variables(self):
         try:
-            with open("variables.json", "r") as f:
+            with open(_get_variables_file(), "r") as f:
                 data = json.load(f)
                 self.filters: list = data.get("filters", ["job offer"])
                 self.filter_strength: int = data.get("filter_strength", 3)
@@ -27,7 +34,7 @@ class Variables:
             "channels": self.channels,
             "post_preview": self.post_preview
         }
-        with open("variables.json", "w", encoding="utf-8") as f:
+        with open(_get_variables_file(), "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
     
     

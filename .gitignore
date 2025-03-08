@@ -11,6 +11,8 @@ __pycache__/
 *.session-journal
 
 variables.json
+variables-test.json
+backup/
 
 
 *.log
@@ -23,5 +25,3 @@ env/
 
 .DS_Store
 Thumbs.db
-
-backup/
