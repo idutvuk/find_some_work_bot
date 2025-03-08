@@ -65,4 +65,4 @@ async def filter_match(post_text: str) -> list:
 
     except Exception as e:
         logger.error(f"OpenAI API error: {e}")
-        return False
+        return ["0"]
