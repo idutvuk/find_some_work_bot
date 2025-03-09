@@ -38,24 +38,23 @@ async def filter_match(post_text: str) -> list:
         """
         You are a highly qualified expert in text analysis and automated job matching. Your task is to evaluate a job offer or order post against a given technology stack.
         Input:
-            Post (string): A text describing a job offer or order.
-            Filters (string/array): A list of keywords or phrases (technologies/skills), separated by commas or provided as an array.
+            Post : A text describing a job offer or order.
+            Filters (list): A list of keywords or phrases (technologies/skills), separated by commas or provided as an array.
         Task:
-        For each filter, assign a score from 0 to 5 based on its relevance to the post, where:
+        For each filter, assign a score from 0 to 5:
             0 means no mention or relevance;
             5 means a full match with explicit mention.
         Consider direct mentions, synonyms, abbreviations, context, frequency, and overall appropriateness (e.g., a post seeking a 3D designer might score "Interior Visualizer" as 3/5).
         Output:
         Return a space-separated string of scores matching the order of the filters. If the post is not a job offer or order, return "0".
         """
-        + f"Filters:\n'{v.filters}'. "
+        + f"Filters:\n'{v.filters}' Negative correlation: {v.negative}. Post: {post_text}"
     )
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": f"Post: {post_text}"},
+                {"role": "system", "content": prompt}
             ],
             temperature=0.0,
         )

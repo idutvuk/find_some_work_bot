@@ -1,5 +1,5 @@
 import pytest
-from telegram_handlers import subscribe_handler, unsubscribe_handler, vars
+from telegram_handlers import subscribe_handler, unsubscribe_handler, v
 from types import SimpleNamespace
 
 # Create a dummy message object to simulate Telegram's message.
@@ -20,14 +20,14 @@ class DummyMessage:
 @pytest.mark.asyncio
 async def test_subscribe_unsubscribe():
     # Ensure a clean state for subscribers.
-    vars.subscribers.clear()
+    v.subscribers.clear()
 
     # Simulate sending a /subscribe command.
     dummy_subscribe = DummyMessage("/subscribe", 100, 100)
     await subscribe_handler(dummy_subscribe)
-    assert 100 in vars.subscribers
+    assert 100 in v.subscribers
 
     # Now simulate sending a /unsubscribe command.
     dummy_unsubscribe = DummyMessage("/unsubscribe", 100, 100)
     await unsubscribe_handler(dummy_unsubscribe)
-    assert 100 not in vars.subscribers
+    assert 100 not in v.subscribers

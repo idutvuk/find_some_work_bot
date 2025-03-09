@@ -17,6 +17,7 @@ class Variables:
             with open(_get_variables_file(), "r", encoding="utf-8") as f:
                 data = json.load(f)
                 self.filters: list = data.get("filters", ["job offer"])
+                self.negative: list = data.get("negative", [])
                 self.filter_strength: int = data.get("filter_strength", 3)
                 self.subscribers: set = set(data.get("subscribers", []))
                 self.channels: dict = data.get("channels", {})
@@ -32,7 +33,8 @@ class Variables:
             "parse_mode": self.parse_mode,
             "subscribers": list(self.subscribers),
             "channels": self.channels,
-            "post_preview": self.post_preview
+            "post_preview": self.post_preview,
+            "negative": self.negative
         }
         with open(_get_variables_file(), "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
